@@ -26,6 +26,14 @@ func NewBot(tb *telebot.Bot, l *layout.Layout) *Bot {
 		return c.Send("Hello, World!")
 	})
 
+	b.tb.Handle(telebot.OnDocument, func(ctx telebot.Context) error {
+		return handleFile(ctx)
+	})
+
+	b.tb.Handle(telebot.OnText, func(ctx telebot.Context) error {
+		return handleMagnetLink(ctx)
+	})
+
 	return b
 }
 
