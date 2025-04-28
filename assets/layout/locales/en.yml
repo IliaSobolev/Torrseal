@@ -1,0 +1,10 @@
+# Common
+error: |
+  <b>🚫 An error occurred</b>
+
+error_dev: |
+  <b>🚫 An error occurred</b>
+
+  <b>Time:</b> {{ .Time }}
+  <b>User:</b> {{ .User }}
+  <b>Error:</b> {{ .Error }}
