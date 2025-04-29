@@ -1,8 +1,17 @@
 services:
+  postgres:
+    image: postgres:13.3
+    restart: always
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - "postgres_data:/var/lib/postgresql/data"
+    env_file:
+      - ".pg.env"
   app:
     build: .
     restart: always
     env_file: ".app.env"
 
 volumes:
-  mongo_data:
+  postgres_data:

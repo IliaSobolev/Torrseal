@@ -1,7 +1,13 @@
 package main
 
 import (
+	"context"
+	"errors"
 	"github.com/IliaSobolev/Torrseal/internal/bot"
+	"github.com/golang-migrate/migrate/v4"
+	_ "github.com/golang-migrate/migrate/v4/database/postgres"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
+	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"gopkg.in/telebot.v3"
@@ -37,6 +43,27 @@ func main() {
 		zerolog.SetGlobalLevel(zerolog.TraceLevel)
 	default:
 		zerolog.SetGlobalLevel(zerolog.InfoLevel)
+	}
+
+	//DB connection
+	pool, err := pgxpool.New(context.Background(), os.Getenv("DATABASE_URL"))
+	if err != nil {
+		log.Fatal().Err(err).Msg("failed to connect to database")
+	}
+	//ping
+	err = pool.Ping(context.Background())
+	if err != nil {
+		log.Fatal().Err(err).Msg("failed to ping database")
+	}
+
+	//Migrations
+	m, err := migrate.New("file://migrations", os.Getenv("DATABASE_URL"))
+	if err != nil {
+		log.Fatal().Err(err).Msg("failed to initialize to database")
+	}
+	err = m.Up()
+	if err != nil && !errors.Is(err, migrate.ErrNoChange) {
+		log.Fatal().Err(err).Msg("failed to apply migrations")
 	}
 
 	//Bot
