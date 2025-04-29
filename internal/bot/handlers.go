@@ -17,7 +17,7 @@ func handleFile(ctx telebot.Context) error {
 		return ctx.Send("Incorrect file BTW")
 	}
 
-	//do some with file
+	//do some work with file
 
 	//repository.SetUser(user, fileId) для ответа по скаченному файлу
 	fmt.Println(user)
@@ -33,7 +33,7 @@ func handleMagnetLink(ctx telebot.Context) error {
 		return ctx.Send("Incorrect file BTW")
 	}
 
-	//do some with magnetLink
+	//do some work with magnetLink
 
 	//repository.SetUser(user, fileId) для ответа по скаченному файлу
 	fmt.Println(user)

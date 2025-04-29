@@ -12,29 +12,29 @@ type Bot struct {
 }
 
 func NewBot(tb *telebot.Bot, l *layout.Layout) *Bot {
-	b := &Bot{
+	bot := &Bot{
 		tb: tb,
 		l:  l,
 	}
 
 	m := middleware.NewMiddleware(l)
 
-	b.tb.Use(m.Logger)
+	bot.tb.Use(m.Logger)
 
-	//Test
-	b.tb.Handle("/start", func(c telebot.Context) error {
+	// Routing
+	bot.tb.Handle("/start", func(c telebot.Context) error {
 		return c.Send("Hello, World!")
 	})
 
-	b.tb.Handle(telebot.OnDocument, func(ctx telebot.Context) error {
+	bot.tb.Handle(telebot.OnDocument, func(ctx telebot.Context) error {
 		return handleFile(ctx)
 	})
 
-	b.tb.Handle(telebot.OnText, func(ctx telebot.Context) error {
+	bot.tb.Handle(telebot.OnText, func(ctx telebot.Context) error {
 		return handleMagnetLink(ctx)
 	})
 
-	return b
+	return bot
 }
 
 func (b *Bot) StartAsync() {
