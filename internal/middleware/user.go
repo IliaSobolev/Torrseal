@@ -31,6 +31,9 @@ func (m *Middleware) User(next telebot.HandlerFunc) telebot.HandlerFunc {
 		} else {
 			m.layout.SetLocale(c, "en")
 		}
+
+		c.Set("user", user)
+
 		err = next(c)
 		if err != nil {
 			return c.Send(m.layout.Text(c, "forbidden"))
