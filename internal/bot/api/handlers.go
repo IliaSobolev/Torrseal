@@ -1,13 +1,14 @@
-package bot
+package api
 
 import (
 	"fmt"
 	"strings"
+	"github.com/IliaSobolev/Torrseal/internal/bot/services"
 
 	"gopkg.in/telebot.v3"
 )
 
-func handleFile(ctx telebot.Context) error {
+func HandleFile(ctx telebot.Context) error {
 	inputFile := ctx.Message().Document.File
 	user := ctx.Message().Sender
 
@@ -23,11 +24,11 @@ func handleFile(ctx telebot.Context) error {
 	return ctx.Send("File start download")
 }
 
-func handleMagnetLink(ctx telebot.Context) error {
+func HandleMagnetLink(ctx telebot.Context) error {
 	magnetLink := ctx.Message().Text
 	user := ctx.Message().Sender
 
-	if !validateMagnetLink(magnetLink) {
+	if !services.ValidateMagnetLink(magnetLink) {
 		return ctx.Send("Incorrect file BTW")
 	}
 

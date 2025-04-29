@@ -1,6 +1,7 @@
 package bot
 
 import (
+	"github.com/IliaSobolev/Torrseal/internal/bot/api"
 	"github.com/IliaSobolev/Torrseal/internal/middleware"
 	"gopkg.in/telebot.v3"
 	"gopkg.in/telebot.v3/layout"
@@ -27,11 +28,11 @@ func NewBot(tb *telebot.Bot, l *layout.Layout) *Bot {
 	})
 
 	bot.tb.Handle(telebot.OnDocument, func(ctx telebot.Context) error {
-		return handleFile(ctx)
+		return api.HandleFile(ctx)
 	})
 
 	bot.tb.Handle(telebot.OnText, func(ctx telebot.Context) error {
-		return handleMagnetLink(ctx)
+		return api.HandleMagnetLink(ctx)
 	})
 
 	return bot

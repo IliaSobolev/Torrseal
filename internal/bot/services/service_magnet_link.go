@@ -1,9 +1,9 @@
-package bot
+package services
 
 import "regexp"
 
 // Validate magnet link
-func validateMagnetLink(link string) bool {
+func ValidateMagnetLink(link string) bool {
 	// idk work or not this patterns
 	magnetPattern := []string{
 		`^magnet:\?xt=urn:btih:[a-zA-Z0-9]{32,40}(&dn=.+)?(&tr=.+)*$`,
