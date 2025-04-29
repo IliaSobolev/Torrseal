@@ -8,3 +8,5 @@ error_dev: |
   <b>Time:</b> {{ .Time }}
   <b>User:</b> {{ .User }}
   <b>Error:</b> {{ .Error }}
+
+forbidden: "❌ Forbidden"

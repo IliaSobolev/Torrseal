@@ -4,6 +4,8 @@ import (
 	"context"
 	"errors"
 	"github.com/IliaSobolev/Torrseal/internal/bot"
+	userRepository "github.com/IliaSobolev/Torrseal/internal/user/repository/mongo"
+	userUsecase "github.com/IliaSobolev/Torrseal/internal/user/usecase"
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
@@ -66,6 +68,12 @@ func main() {
 		log.Fatal().Err(err).Msg("failed to apply migrations")
 	}
 
+	//repositories
+	userRepo := userRepository.NewUserRepo(pool)
+
+	//usecases
+	userUC := userUsecase.NewUserUsecase(userRepo)
+
 	//Bot
 	l, err := layout.New("assets/layout/layout.yml")
 	if err != nil {
@@ -75,7 +83,7 @@ func main() {
 	if err != nil {
 		log.Fatal().Err(err).Msg("Failed to create telebot")
 	}
-	b := bot.NewBot(tb, l)
+	b := bot.NewBot(tb, userUC, l)
 
 	// Start bot
 	log.Info().Msg("Starting bot")
